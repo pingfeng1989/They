@@ -143,17 +143,18 @@ skills:
 
 - [x] 项目初始化与目录结构
 - [x] 4 个核心技能 SKILL.md（budget, expense, shopping, reminder）
-- [ ] 阶段 1 (1-2月)：Hermes runtime + skills 落地 + 本地验证
-- [ ] 阶段 2 (3-4月)：外部 API 接入 + 工作流编排 + 多端同步
-- [ ] 阶段 3 (5-6月)：多 Agent 协作 + 插件扩展 + 公开发布
+- [x] `.env.example`（Hermes 风格）
+- [x] `docker-compose.yml`（Hermes runtime 部署）
+- [x] README.md（基于 Hermes 架构）
+- [x] 阶段 1 commit & push（`af6db25`）
+- [x] 阶段 2 commit & push（`0fd1b9d`）
 
-## 许可证
+## 阶段 2：外部 API + 工作流编排（进行中/待确认）
 
-MIT License — 详见 [LICENSE](LICENSE)。
+- [x] 外部 API 接入指南与脚本（Google Workspace / Apple / 国内服务）
+- [x] 工作流编排 blueprint（5 个 cron 任务模板）
+- [ ] 确认是否创建真实 cron jobs（需用户确认后执行）
 
 ---
 
-> **为什么选择 Hermes 作为基础？**
-> - **学习循环**是个人 Agent 的核心护城河：它会从你的使用中学习、自动生成技能、持续改进。
-> - **狭腰设计**：核心稳定，能力在边缘扩展，维护成本极低。
-> - **原生多平台**：手机、电脑、Telegram、桌面端一次配置，到处可用。
+> **当前状态**：`main` branch up to date with `origin/main`. 工作流编排文档已提交，待用户确认是否创建真实 cron jobs。
