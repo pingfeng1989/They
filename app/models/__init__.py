@@ -110,7 +110,8 @@ class SystemLogs(Base):
 
     def to_dict(self) -> dict:
         return {
-            "id": self.id,\n            "level": self.level,
+            "id": self.id,
+            "level": self.level,
             "message": self.message,
             "user_id": self.user_id,
             "timestamp": self.timestamp,
