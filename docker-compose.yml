@@ -1,0 +1,103 @@
+version: "3.8"
+
+services:
+  # FastAPI 应用
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: fp-agent-app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - postgres
+      - qdrant
+    volumes:
+      - ./app:/app/app
+      - ./data:/app/data
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Redis 消息队列 + 缓存
+  redis:
+    image: redis:7-alpine
+    container_name: fp-agent-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # PostgreSQL 关系数据库
+  postgres:
+    image: postgres:15-alpine
+    container_name: fp-agent-postgres
+    environment:
+      POSTGRES_DB: fp_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: {{PASSWORD_kv7thxq4}}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d fp_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # Qdrant 向量数据库
+  qdrant:
+    image: qdrant/qdrant:v1.7
+    container_name: fp-agent-qdrant
+    ports:
+      - "8645:6333"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Celery Worker（异步任务处理）
+  celery-worker:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: fp-agent-celery
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - postgres
+      - qdrant
+    volumes:
+      - ./app:/app/app
+      - ./data:/app/data
+    command: celery -A app.core.celery_app worker --loglevel=info
+
+  # Celery Beat（定时任务调度器，类似 Hermes 的 cron）
+  celery-beat:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: fp-agent-beat
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    volumes:
+      - ./app:/app/app
+    command: celery -A app.core.celery_app beat --loglevel=info
+
+volumes:
+  redis_data:
+  postgres_data:
+  qdrant_data:
