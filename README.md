@@ -149,12 +149,19 @@ skills:
 - [x] 阶段 1 commit & push（`af6db25`）
 - [x] 阶段 2 commit & push（`0fd1b9d`）
 
-## 阶段 2：外部 API + 工作流编排（进行中/待确认）
+## 已创建真实 cron jobs（本地 Hermes）
 
-- [x] 外部 API 接入指南与脚本（Google Workspace / Apple / 国内服务）
-- [x] 工作流编排 blueprint（5 个 cron 任务模板）
-- [ ] 确认是否创建真实 cron jobs（需用户确认后执行）
+| Job | 名称 | 调度 | 交付 | 状态 | Next run |
+|-----|------|------|------|------|----------|
+| `e07d1e7315ff` | `morning-brief` | 每天 08:00 | origin | ✅ active | 2026-11-14T08:00:00+08:00 |
+| `da1d50f618ca` | `evening-digest` | 每天 20:00 | origin | ✅ active | 2026-11-13T20:00:00+08:00 |
+| `eabe512693f9` | `weekly-review` | 每周日 09:00 | origin | ✅ active | 2026-11-15T09:00:00+08:00 |
+| `ff50c166ba07` | `anomaly-detection` | 每天 10:00 | origin | ✅ active | 2026-11-14T10:00:00+08:00 |
+| `b9ad41151e69` | `price-watch-tick` | every 6h | origin | ✅ active | 2026-11-14T00:58:29+08:00 |
 
----
+所有 job 的 `workdir` 为 `/Users/ping/.t3/projects/They`。
 
-> **当前状态**：`main` branch up to date with `origin/main`. 工作流编排文档已提交，待用户确认是否创建真实 cron jobs。
+### 待确认（需要你的选择）
+
+1. **Google Workspace OAuth 授权** — 运行 `hermes run --skill google-workspace --prompt "Run the google-workspace setup.py --check"` 确认是否已授权；如未授权，提供 `client_secret.json` 路径。
+2. **Apple 生态** — macOS 本机可直接使用，无需额外配置。
