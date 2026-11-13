@@ -1,6 +1,6 @@
 ---
 name: lifestyle-reminder
-description: "Schedule reminders, daily digests, and anomaly alerts for everyday life."
+description: "Set reminders, digests, and anomaly alerts."
 version: 0.1.0
 author: They, Hermes Agent
 license: MIT

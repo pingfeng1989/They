@@ -1,6 +1,6 @@
 ---
 name: shopping-comparison
-description: "Track product prices across stores and alert on drops or thresholds."
+description: "Track product prices and alert on drops."
 version: 0.1.0
 author: They, Hermes Agent
 license: MIT

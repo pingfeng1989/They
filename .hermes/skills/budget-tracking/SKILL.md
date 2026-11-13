@@ -1,6 +1,6 @@
 ---
 name: budget-tracking
-description: "Create, check, and track spending budgets by category and period."
+description: "Create and track budgets by category and period."
 version: 0.1.0
 author: They, Hermes Agent
 license: MIT

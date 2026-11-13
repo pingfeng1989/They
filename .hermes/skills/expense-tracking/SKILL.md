@@ -1,6 +1,6 @@
 ---
 name: expense-tracking
-description: "Record, categorize, and summarize personal expenses over time."
+description: "Record and summarize personal expenses over time."
 version: 0.1.0
 author: They, Hermes Agent
 license: MIT
